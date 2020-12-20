@@ -1,0 +1,5 @@
+driver.class.name=org.mariadb.jdbc.Driver
+main.database.url=jdbc:mariadb://192.168.1.60:3306/epsilon
+main.database.username=epsilonuser
+main.database.password=1xylixmaF7b7rTYqqQ2Q
+main.database.pool.size=10
