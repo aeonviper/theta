@@ -1,0 +1,16 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Package Files #
+*.zip
+/*.jar
+*.war
+*.ear
+
+.classpath
+.project
+.settings/
+build/
