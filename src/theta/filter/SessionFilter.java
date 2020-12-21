@@ -1,4 +1,4 @@
-package epsilon.filter;
+package theta.filter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,14 +15,14 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import epsilon.core.Constant;
-import epsilon.core.Utility;
-import epsilon.security.Principal;
 import io.fusionauth.jwt.JWTExpiredException;
 import io.fusionauth.jwt.domain.JWT;
 import orion.controller.Notification;
 import orion.navigation.Handle;
 import orion.navigation.Navigation;
+import theta.core.Constant;
+import theta.core.Utility;
+import theta.security.Principal;
 
 public class SessionFilter implements Filter {
 

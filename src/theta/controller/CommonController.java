@@ -1,8 +1,8 @@
-package epsilon.controller;
+package theta.controller;
 
-import epsilon.model.PersonRole;
 import orion.annotation.Path;
 import orion.view.View;
+import theta.model.PersonRole;
 
 public class CommonController extends BaseController {
 

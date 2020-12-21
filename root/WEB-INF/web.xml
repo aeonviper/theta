@@ -30,12 +30,12 @@
 
 	<filter>
 		<filter-name>session</filter-name>
-		<filter-class>epsilon.filter.SessionFilter</filter-class>
+		<filter-class>theta.filter.SessionFilter</filter-class>
 	</filter>
 
 	<filter>
 		<filter-name>application</filter-name>
-		<filter-class>epsilon.filter.ApplicationFilter</filter-class>
+		<filter-class>theta.filter.ApplicationFilter</filter-class>
 	</filter>
 
 	<filter-mapping>
@@ -85,7 +85,7 @@
 	</filter-mapping>
 
 	<listener>
-		<listener-class>epsilon.listener.ApplicationContextListener</listener-class>
+		<listener-class>theta.listener.ApplicationContextListener</listener-class>
 	</listener>
 
 	<welcome-file-list>

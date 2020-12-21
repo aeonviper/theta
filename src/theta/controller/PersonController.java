@@ -1,15 +1,15 @@
-package epsilon.controller;
+package theta.controller;
 
 import javax.inject.Inject;
 
-import epsilon.core.Utility;
-import epsilon.model.Person;
-import epsilon.service.PersonService;
 import orion.annotation.Parameter;
 import orion.annotation.Path;
 import orion.validation.field.RequiredField;
 import orion.validation.field.RequiredStringField;
 import orion.view.View;
+import theta.core.Utility;
+import theta.model.Person;
+import theta.service.PersonService;
 
 public class PersonController extends BaseController {
 

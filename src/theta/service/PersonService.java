@@ -1,12 +1,12 @@
-package epsilon.service;
+package theta.service;
 
 import java.util.List;
 import java.util.function.Function;
 
-import epsilon.core.Utility;
-import epsilon.model.Person;
 import omega.annotation.Transactional;
 import omega.service.Decorator;
+import theta.core.Utility;
+import theta.model.Person;
 
 public class PersonService extends BaseService {
 

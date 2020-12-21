@@ -1,9 +1,9 @@
-package epsilon.security;
+package theta.security;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import epsilon.model.PersonRole;
+import theta.model.PersonRole;
 
 public class Principal {
 

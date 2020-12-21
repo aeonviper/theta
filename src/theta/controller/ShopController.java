@@ -1,4 +1,4 @@
-package epsilon.controller;
+package theta.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,9 +12,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import common.Utility;
-import epsilon.model.Product;
-import epsilon.model.Shop;
-import epsilon.service.ShopService;
 import omega.service.TransactionContext;
 import omega.service.TransactionService;
 import orion.annotation.Parameter;
@@ -22,6 +19,9 @@ import orion.annotation.Path;
 import orion.annotation.PathSet;
 import orion.validation.field.LongRangeField;
 import orion.view.View;
+import theta.model.Product;
+import theta.model.Shop;
+import theta.service.ShopService;
 
 @Singleton
 public class ShopController extends BaseController {

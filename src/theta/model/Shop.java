@@ -1,4 +1,4 @@
-package epsilon.model;
+package theta.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;

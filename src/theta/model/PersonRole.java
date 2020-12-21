@@ -1,4 +1,4 @@
-package epsilon.model;
+package theta.model;
 
 public enum PersonRole {
 	User, //

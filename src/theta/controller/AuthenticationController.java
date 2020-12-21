@@ -1,4 +1,4 @@
-package epsilon.controller;
+package theta.controller;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -6,17 +6,17 @@ import java.time.ZonedDateTime;
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 
-import epsilon.core.Constant;
-import epsilon.core.Utility;
-import epsilon.model.Person;
-import epsilon.security.Principal;
-import epsilon.service.PersonService;
 import io.fusionauth.jwt.domain.JWT;
 import orion.annotation.Parameter;
 import orion.annotation.Path;
 import orion.validation.field.RequiredField;
 import orion.validation.field.RequiredStringField;
 import orion.view.View;
+import theta.core.Constant;
+import theta.core.Utility;
+import theta.model.Person;
+import theta.security.Principal;
+import theta.service.PersonService;
 
 public class AuthenticationController extends BaseController {
 
@@ -94,7 +94,7 @@ public class AuthenticationController extends BaseController {
 			} else {
 				Principal principal = new Principal(person.getId(), person.getEmail(), person.getName(), person.getRole());
 
-				JWT jwt = new JWT().setIssuer("epsilon").setIssuedAt(ZonedDateTime.now(ZoneOffset.UTC)).setExpiration(ZonedDateTime.now(ZoneOffset.UTC).plusMinutes(1200));
+				JWT jwt = new JWT().setIssuer("theta").setIssuedAt(ZonedDateTime.now(ZoneOffset.UTC)).setExpiration(ZonedDateTime.now(ZoneOffset.UTC).plusMinutes(1200));
 				jwt.addClaim("principal", Utility.gson.toJson(principal));
 				String encodedJWT = JWT.getEncoder().encode(jwt, Constant.jwtSigner);
 

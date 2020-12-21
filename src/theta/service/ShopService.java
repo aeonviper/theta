@@ -1,13 +1,10 @@
-package epsilon.service;
+package theta.service;
 
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
 
-import epsilon.core.Utility;
-import epsilon.model.Product;
-import epsilon.model.Shop;
 import epsilon.persistence.PersistenceModule;
 import omega.annotation.Transactional;
 import omega.service.BatchPreparer;
@@ -15,6 +12,8 @@ import omega.service.Builder;
 import omega.service.Decorator;
 import omega.service.ResultData;
 import omega.service.Specification;
+import theta.model.Product;
+import theta.model.Shop;
 
 public class ShopService extends BaseService {
 
