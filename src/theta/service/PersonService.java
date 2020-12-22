@@ -3,6 +3,7 @@ package theta.service;
 import java.util.List;
 import java.util.function.Function;
 
+import omega.annotation.TransactionIsolation;
 import omega.annotation.Transactional;
 import omega.service.Decorator;
 import theta.core.Utility;
@@ -94,7 +95,8 @@ public class PersonService extends BaseService {
 		return find(Person.class, "select id, name, email, password, active, role from person where email = ?", email);
 	}
 
-	@Transactional
+	// just an example, if you specify an isolation on 1 method, you need to specify for all methods, because isolation can be connection specific
+	@Transactional(type = "", isolation = TransactionIsolation.READ_UNCOMMITTED)
 	public List<Person> list() {
 		return list(Person.class, "select id, mapData, name, email, password, active, role, attachmentListData from person order by id");
 	}
