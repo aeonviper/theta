@@ -1,5 +1,6 @@
 package theta.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
@@ -99,6 +100,22 @@ public class PersonService extends BaseService {
 	@Transactional(type = "", isolation = TransactionIsolation.READ_UNCOMMITTED)
 	public List<Person> list() {
 		return list(Person.class, "select id, mapData, name, email, password, active, role, attachmentListData from person order by id");
+	}
+	
+	@Transactional
+	public Long total() {
+		return select(Long.class, "select count(1) from person");
+	}
+
+	@Transactional
+	public List<Person> list(Integer offset, Integer limit, String sortField, String sortDirection) {
+		List<String> fieldList = Arrays.asList("id", "name", "email", "password", "active", "role");
+		if (fieldList.contains(sortField) && ("asc".equals(sortDirection) || "desc".equals(sortDirection))) {
+		} else {
+			sortField = "id";
+			sortDirection = "desc";
+		}
+		return list(Person.class, "select id, mapData, name, email, password, active, role, attachmentListData from person order by " + sortField + " " + sortDirection + " limit ? offset ?", limit, offset);
 	}
 
 }

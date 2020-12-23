@@ -90,4 +90,16 @@ public class PersonController extends BaseController {
 		return ok(personService.apply(personService.list(), personService.sanitizer, personService.sanitizerPassword));
 	}
 
+	@Path(value = "/system/person/list/pagination", allow = { "Administrator", "Tenant" }, deny = {})
+	public View list(@Parameter("page") Integer page, @Parameter("pageSize") Integer pageSize, @Parameter("sortField") String sortField, @Parameter("sortDirection") String sortDirection) {
+		page = Utility.page(page);
+		pageSize = Utility.pageSize(pageSize);
+		return ok(Utility.makeMap( //
+				"list", personService.apply( //
+						pageSize == -1 ? personService.list() : personService.list((page - 1) * pageSize, pageSize, sortField, sortDirection), //
+						personService.sanitizer, personService.sanitizerPassword), //
+				"total", personService.total() //
+		));
+	}
+
 }

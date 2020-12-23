@@ -12,5 +12,19 @@ public class Utility extends epsilon.core.Utility {
 
 	public static final Type typeListOfString = new TypeToken<List<String>>() {
 	}.getType();
+	
+	public static Integer page(Integer page) {
+		if (page != null && page >= 1) {
+			return page;
+		}
+		return 1;
+	}
+	
+	public static Integer pageSize(Integer pageSize) {
+		if (pageSize != null && (pageSize > 0 || pageSize == -1)) {
+			return pageSize;
+		} 
+		return 500;
+	}
 
 }
