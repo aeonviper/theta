@@ -109,7 +109,7 @@ public class PersonService extends BaseService {
 
 	@Transactional
 	public List<Person> list(Integer offset, Integer limit, String sortField, String sortDirection) {
-		List<String> fieldList = Arrays.asList("id", "name", "email", "password", "active", "role");
+		List<String> fieldList = Arrays.asList("id", "name", "email", "active", "role");
 		if (fieldList.contains(sortField) && ("asc".equals(sortDirection) || "desc".equals(sortDirection))) {
 		} else {
 			sortField = "id";
