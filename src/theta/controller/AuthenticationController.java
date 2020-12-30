@@ -9,8 +9,6 @@ import javax.servlet.http.Cookie;
 import io.fusionauth.jwt.domain.JWT;
 import orion.annotation.Parameter;
 import orion.annotation.Path;
-import orion.validation.field.RequiredField;
-import orion.validation.field.RequiredStringField;
 import orion.view.View;
 import theta.core.Constant;
 import theta.core.Utility;
@@ -32,9 +30,9 @@ public class AuthenticationController extends BaseController {
 	public View editPassword(@Parameter("currentPassword") String currentPassword, @Parameter("newPassword") String newPassword, @Parameter("confirmNewPassword") String confirmNewPassword) {
 		if (!( //
 		validateRequiredString( //
-				new RequiredStringField("currentPassword", currentPassword), //
-				new RequiredStringField("newPassword", newPassword), //
-				new RequiredStringField("confirmNewPassword", confirmNewPassword) //
+				"currentPassword", currentPassword, //
+				"newPassword", newPassword, //
+				"confirmNewPassword", confirmNewPassword //
 		) //
 		)) {
 			return badRequestNotification;
@@ -59,13 +57,12 @@ public class AuthenticationController extends BaseController {
 	@Path(value = "/system/authentication/register", allow = {}, deny = {})
 	public View register(@Parameter("person") Person person) {
 		if (!( //
-		validateRequired(new RequiredField("person", person)) //
-				&& validateRequired(new RequiredField("role", person.getRole())) //
+		validateRequired("person", person) //
+				&& validateRequired("role", person.getRole()) //
 				&& validateRequiredString( //
-						new RequiredStringField("name", person.getName()), //
-						new RequiredStringField("email", person.getEmail()), //
-						new RequiredStringField("password", person.getPassword()) //
-
+						"name", person.getName(), //
+						"email", person.getEmail(), //
+						"password", person.getPassword() //
 				) //
 		)) {
 			return badRequestNotification;
@@ -80,8 +77,8 @@ public class AuthenticationController extends BaseController {
 	public View login(@Parameter("email") String email, @Parameter("password") String password) {
 		if (!( //
 		validateRequiredString( //
-				new RequiredStringField("email", email), //
-				new RequiredStringField("password", password) //
+				"email", email, //
+				"password", password //
 		) //
 		)) {
 			return badRequestNotification;

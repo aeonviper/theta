@@ -9,13 +9,11 @@ import epsilon.core.AssetUtility;
 import orion.annotation.Parameter;
 import orion.annotation.Path;
 import orion.controller.Attachment;
-import orion.validation.field.RequiredField;
-import orion.validation.field.RequiredStringField;
 import orion.view.View;
+import theta.core.Constant;
 import theta.core.Utility;
 import theta.model.Person;
 import theta.service.PersonService;
-import theta.core.Constant;
 
 public class PersonController extends BaseController {
 
@@ -32,12 +30,12 @@ public class PersonController extends BaseController {
 	@Path(value = "/system/person/add", allow = { "Administrator", "Tenant" }, deny = {})
 	public View add(@Parameter("person") Person person) {
 		if (!( //
-		validateRequired(new RequiredField("person", person)) //
-				&& validateRequired(new RequiredField("role", person.getRole())) //
+		validateRequired("person", person) //
+				&& validateRequired("role", person.getRole()) //
 				&& validateRequiredString( //
-						new RequiredStringField("name", person.getName()), //
-						new RequiredStringField("email", person.getEmail()), //
-						new RequiredStringField("password", person.getPassword()) //
+						"name", person.getName(), //
+						"email", person.getEmail(), //
+						"password", person.getPassword() //
 
 				) //
 		)) {
@@ -71,14 +69,14 @@ public class PersonController extends BaseController {
 	@Path(value = "/system/person/edit", allow = { "Administrator", "Tenant" }, deny = {})
 	public View edit(@Parameter("person") Person person) {
 		if (!( //
-		validateRequired(new RequiredField("person", person)) //
+		validateRequired("person", person) //
 				&& validateRequired( //
-						new RequiredField("id", person.getId()), //
-						new RequiredField("role", person.getRole()) //
+						"id", person.getId(), //
+						"role", person.getRole() //
 				) //
 				&& validateRequiredString( //
-						new RequiredStringField("name", person.getName()), //
-						new RequiredStringField("email", person.getEmail()) //
+						"name", person.getName(), //
+						"email", person.getEmail() //
 				) //
 		)) {
 			return badRequestNotification;
@@ -115,7 +113,7 @@ public class PersonController extends BaseController {
 	@Path(value = "/system/person/delete", allow = { "Administrator", "Tenant" }, deny = {})
 	public View delete(@Parameter("id") Long id) {
 		if (!( //
-		validateRequired(new RequiredField("id", id)) //
+		validateRequired("id", id) //
 		)) {
 			return badRequestNotification;
 		}
@@ -125,8 +123,8 @@ public class PersonController extends BaseController {
 	@Path(value = "/system/person/attachment/delete", allow = { "Administrator", "Tenant" }, deny = {})
 	public View deleteAttachment(@Parameter("id") Long id, @Parameter("name") String name) {
 		if (!( //
-		validateRequired(new RequiredField("id", id)) //
-				&& validateRequiredString(new RequiredStringField("name", name)) //
+		validateRequired("id", id) //
+				&& validateRequiredString("name", name) //
 		)) {
 			return badRequestNotification;
 		}

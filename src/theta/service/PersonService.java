@@ -101,7 +101,7 @@ public class PersonService extends BaseService {
 	public List<Person> list() {
 		return list(Person.class, "select id, mapData, name, email, password, active, role, attachmentListData from person order by id");
 	}
-	
+
 	@Transactional
 	public Long total() {
 		return select(Long.class, "select count(1) from person");
