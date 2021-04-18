@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import epsilon.persistence.PersistenceModule;
+import omega.annotation.TransactionIsolation;
 import omega.annotation.Transactional;
 import omega.service.BatchPreparer;
 import omega.service.Builder;
@@ -57,7 +58,8 @@ public class ShopService extends BaseService {
 		}
 	}
 
-	@Transactional
+	// just an example, if you specify an isolation on 1 method, you need to specify for all methods, because isolation can be connection specific
+	@Transactional(type = "", isolation = TransactionIsolation.READ_UNCOMMITTED)
 	public List<Shop> list() {
 		return list(Shop.class, "select * from shop order by name");
 	}
