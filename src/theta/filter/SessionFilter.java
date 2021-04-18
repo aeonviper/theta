@@ -121,16 +121,10 @@ public class SessionFilter implements Filter {
 		}
 
 		if (!valid) {
-			Map<String, Object> map = new HashMap<>();
-			map.put("type", "NOTIFICATION");
-			map.put("noticeList", notification.getNoticeList());
-			map.put("errorList", notification.getErrorList());
-			map.put("fieldErrorList", notification.getFieldErrorList());
-
 			HttpServletResponse response = (HttpServletResponse) servletResponse;
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			PrintWriter pw = response.getWriter();
-			pw.println(Utility.gson.toJson(map));
+			pw.println(Utility.gson.toJson(notification));
 			pw.flush();
 		} else {
 			chain.doFilter(servletRequest, servletResponse);
