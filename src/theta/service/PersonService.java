@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
-import omega.annotation.TransactionIsolation;
 import omega.annotation.Transactional;
 import omega.service.Decorator;
 import theta.core.Utility;
