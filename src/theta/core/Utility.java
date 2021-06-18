@@ -1,11 +1,14 @@
 package theta.core;
 
 import java.lang.reflect.Type;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
 
 public class Utility extends epsilon.core.Utility {
+
+	public static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 	public static final Type typeListOfLong = new TypeToken<List<Long>>() {
 	}.getType();

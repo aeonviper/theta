@@ -14,11 +14,13 @@ import com.google.gson.GsonBuilder;
 import common.Utility;
 import omega.service.TransactionContext;
 import omega.service.TransactionService;
+import orion.annotation.Cookie;
 import orion.annotation.Parameter;
 import orion.annotation.Path;
 import orion.annotation.PathSet;
 import orion.validation.field.LongRangeField;
 import orion.view.View;
+import theta.model.Person;
 import theta.model.Product;
 import theta.model.Shop;
 import theta.service.ShopService;
@@ -32,33 +34,49 @@ public class ShopController extends BaseController {
 	@Inject
 	TransactionService transactionService;
 
+	String cookieValue;
+
+	@Cookie(value = "thetaCookie")
+	public void setCookieValue(String cookieValue) {
+		this.cookieValue = cookieValue;
+	}
+
 	@PathSet({ //
 			@Path(value = "/system/common/shop/([0-9]+)", name = "entityId", allow = {}, deny = {}), //
 			@Path(value = "/system/common/(store|shop)/find/([0-9]+)", name = "qualifier,entityId", method = "POST", allow = {}, deny = {}) //
 	})
 	public View find( //
+			@Parameter("productId") Long productId, //
+			@Parameter("queryObject") Object queryObject, //
 			@Parameter("entityId") Long entityId, //
 			@Parameter("qualifier") String qualifier, //
 			@Parameter("genericMap") Map genericMap, //
-			@Parameter("shop") Shop shop //
+			@Parameter("shop") Shop shop, //
+			@Parameter("shopList") List<Shop> shopList, //
+			@Parameter("object") Object object //
 	) {
+		if (!( //
+		validateRequired( //
+				"entityId", entityId //
+		) //
+		)) {
+			return badRequestNotification;
+		}
+
 		if (!validateLongRange(new LongRangeField("whatever", entityId).setMin(0L).setMax(100L))) {
 			return badRequestNotification;
 		}
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
+		Person parameterPerson = gson.fromJson(gson.toJson(object), Person.class);
+		Shop parameterShop = gson.fromJson(gson.toJson(object), Shop.class);
+
 		if (entityId.equals(777L)) {
 			return forbidden("777 = entityId");
 		}
 
 		System.out.println("> thread: " + Thread.currentThread() + " " + this);
-
-		System.out.println("> genericMap:\n" + gson.toJson(genericMap));
-
-		System.out.println("> shop:\n" + gson.toJson(shop));
-
-		List<Shop> shopList;
 
 		System.out.println("> list:\n" + gson.toJson(shopService.list()));
 		System.out.println("> listAgain:\n" + gson.toJson(shopService.listAgain()));
@@ -79,6 +97,8 @@ public class ShopController extends BaseController {
 		Map<String, Shop> shopMap = new HashMap<>();
 		shopMap.put("store1", new Shop(1L, "shop1", "Shop 1"));
 		shopMap.put("store2", new Shop(2L, "shop2", "Shop 2"));
+
+		System.out.println("> listMainProduct:\n" + gson.toJson(shopList = shopService.listJoinMainProduct()));
 
 		return ok(Utility.makeMap("store3", new Shop(3L, "shop3", "Shop 3"), "shop", shop, "genericMap", genericMap));
 	}

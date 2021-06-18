@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import epsilon.persistence.PersistenceModule;
+import theta.core.Utility;
 import omega.annotation.TransactionIsolation;
 import omega.annotation.Transactional;
 import omega.service.BatchPreparer;
@@ -36,6 +37,9 @@ public class ShopService extends BaseService {
 				return entity;
 			}
 			fromDecorate(entity);
+
+			entity.putTransit("date", Utility.format(Utility.dateFormat, entity.getDate()));
+
 			return entity;
 		}
 	};
@@ -107,7 +111,7 @@ public class ShopService extends BaseService {
 
 	// build yourself
 	@Transactional
-	public List<Shop> listBuild(Long presentationId) {
+	public List<Shop> listBuild() {
 		return apply(list(new Builder<Shop>() {
 			public Shop build(ResultData rd) throws SQLException {
 				Shop shop = new Shop();
@@ -119,8 +123,7 @@ public class ShopService extends BaseService {
 				shop.putTransit("whateverQuantity", rd.getString("product.Quantity"));
 				return shop;
 			}
-		}, "select shop.id, product.slug as name from shop join product on product.shopId = shop.id order by shop.name", //
-				presentationId), sanitizer);
+		}, "select shop.id, product.slug as name from shop join product on product.shopId = shop.id order by shop.name"), sanitizer);
 	}
 
 	@Transactional
@@ -137,6 +140,21 @@ public class ShopService extends BaseService {
 						entity.getName() };
 			}
 		}, entityList);
+	}
+
+	@Transactional
+	public List<Shop> listJoinMainProduct() {
+		return list(Shop.class, "select shop.id, shop.name, product.id as `mainProduct.id`, product.name as `mainProduct.name` from shop join product on product.shopId = shop.id order by shop.name");
+	}
+
+	@Transactional
+	public List<Product> listByShopId(Long shopId) {
+		return list(Product.class, "select * from product where (? is null or shopId = ?) order by name", shopId, shopId);
+	}
+
+	@Transactional
+	public Long countShop() {
+		return select(Long.class, "select count(1) from shop");
 	}
 
 }

@@ -1,5 +1,6 @@
 package theta.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,9 +10,11 @@ public class Shop extends BaseModel {
 
 	protected String slug;
 	protected String name;
+	protected LocalDate date;
 
 	// transient
 	protected List<Product> additionalProductList = new ArrayList<>();
+	protected Product mainProduct = new Product();
 
 	public Shop() {
 		additionalProductList.add(new Product());
@@ -59,6 +62,22 @@ public class Shop extends BaseModel {
 
 	public void setAdditionalProductList(List<Product> additionalProductList) {
 		this.additionalProductList = additionalProductList;
+	}
+
+	public Product getMainProduct() {
+		return mainProduct;
+	}
+
+	public void setMainProduct(Product mainProduct) {
+		this.mainProduct = mainProduct;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 
 }
