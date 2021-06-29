@@ -16,7 +16,7 @@ public class BaseController extends epsilon.controller.BaseController {
 	protected HttpServletResponse response;
 
 	@Request
-	public void setRequest(HttpServletRequest request) {
+	public void setServletRequest(HttpServletRequest request) {
 		this.request = request;
 		this.principal = (Principal) request.getAttribute(Principal.class.getCanonicalName());
 	}
