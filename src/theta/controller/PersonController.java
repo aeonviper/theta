@@ -52,7 +52,7 @@ public class PersonController extends BaseController {
 			for (Attachment attachment : new Attachment[] { attachment1, attachment2, attachment3, attachment4, attachment5, attachment6 }) {
 				if (attachment != null) {
 					fileName = "person-attachment-" + person.getId() + "-" + AssetUtility.encodeAssetName(attachment.getName());
-					attachmentPath = Constant.assetFilePath + File.separator + fileName;
+					attachmentPath = Constant.assetPath + File.separator + "file" + File.separator + fileName;
 					if (!(attachment.accept(new File(attachmentPath)) && AssetUtility.resizeAsset(fileName))) {
 						return error("Unable to save " + attachment.getName());
 					}
@@ -95,7 +95,7 @@ public class PersonController extends BaseController {
 			for (Attachment attachment : new Attachment[] { attachment1, attachment2, attachment3, attachment4, attachment5, attachment6 }) {
 				if (attachment != null) {
 					String fileName = "person-attachment-" + person.getId() + "-" + AssetUtility.encodeAssetName(attachment.getName());
-					String attachmentPath = Constant.assetFilePath + File.separator + fileName;
+					String attachmentPath = Constant.assetPath + File.separator + "file" + File.separator + fileName;
 					if (!(attachment.accept(new File(attachmentPath)) && AssetUtility.resizeAsset(fileName))) {
 						return error("Unable to save " + attachment.getName());
 					}
