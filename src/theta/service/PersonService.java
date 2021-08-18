@@ -86,23 +86,28 @@ public class PersonService extends BaseService {
 	}
 
 	@Transactional
+	public Long total() {
+		return selectFind(Long.class, "select count(1) from person");
+	}
+
+	@Transactional
 	public Person findById(Long id) {
 		return fromDecorator.decorate(find(Person.class, "select * from person where id = ?", id));
 	}
 
 	@Transactional
 	public Person findByEmail(String email) {
-		return find(Person.class, "select id, name, email, password, active, role from person where email = ?", email);
+		return fromDecorator.decorate(find(Person.class, "select id, name, email, password, active, role from person where email = ?", email));
+	}
+
+	@Transactional
+	public List<Person> list(Boolean active) {
+		return fromDecorator.decorate(list(Person.class, "select id, mapData, name, email, password, active, role, attachmentListData from person where (? is null or active = ?) order by id", active, active));
 	}
 
 	@Transactional
 	public List<Person> list() {
-		return list(Person.class, "select id, mapData, name, email, password, active, role, attachmentListData from person order by id");
-	}
-
-	@Transactional
-	public Long total() {
-		return select(Long.class, "select count(1) from person");
+		return list(null);
 	}
 
 	@Transactional

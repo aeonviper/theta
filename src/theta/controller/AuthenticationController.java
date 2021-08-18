@@ -84,7 +84,7 @@ public class AuthenticationController extends BaseController {
 			return badRequestNotification;
 		}
 
-		Person person = personService.findByEmail(email);
+		Person person = personService.apply(personService.findByEmail(email), personService.sanitizer);
 		if (person != null && Utility.checkPassword(password, person.getPassword())) {
 			if (!Utility.isTrue(person.getActive())) {
 				return unauthorized("You have been marked as inactive");

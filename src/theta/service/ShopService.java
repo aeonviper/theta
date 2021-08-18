@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.function.Function;
 
 import epsilon.persistence.PersistenceModule;
-import theta.core.Utility;
 import omega.annotation.TransactionIsolation;
 import omega.annotation.Transactional;
 import omega.service.BatchPreparer;
@@ -14,6 +13,7 @@ import omega.service.Builder;
 import omega.service.Decorator;
 import omega.service.ResultData;
 import omega.service.Specification;
+import theta.core.Utility;
 import theta.model.Product;
 import theta.model.Shop;
 
@@ -51,7 +51,7 @@ public class ShopService extends BaseService {
 		}
 	};
 
-	@Transactional
+	@Transactional(type = "Master")
 	public int save(Shop shop) {
 		toDecorator.decorate(shop);
 		if (shop.getId() != null) {
@@ -65,12 +65,12 @@ public class ShopService extends BaseService {
 	// just an example, if you specify an isolation on 1 method, you need to specify for all methods, because isolation can be connection specific
 	@Transactional(type = "", isolation = TransactionIsolation.READ_UNCOMMITTED)
 	public List<Shop> list() {
-		return list(Shop.class, "select * from shop order by name");
+		return apply(list(Shop.class, "select * from shop order by name"), sanitizer);
 	}
 
-	@Transactional
+	@Transactional(type = "Slave")
 	public Shop find(Long id) {
-		return find(Shop.class, "select * from shop where id = ?", id);
+		return apply(find(Shop.class, "select * from shop where id = ?", id), sanitizer);
 	}
 
 	// custom sql
@@ -144,7 +144,7 @@ public class ShopService extends BaseService {
 
 	@Transactional
 	public List<Shop> listJoinMainProduct() {
-		return list(Shop.class, "select shop.id, shop.name, product.id as `mainProduct.id`, product.name as `mainProduct.name` from shop join product on product.shopId = shop.id order by shop.name");
+		return list(Shop.class, "select shop.id, shop.name, product.id as `mainProduct.id`, product.name as `mainProduct.name`, product.name as `transitMap.productName` from shop join product on product.shopId = shop.id order by shop.name");
 	}
 
 	@Transactional
@@ -154,7 +154,7 @@ public class ShopService extends BaseService {
 
 	@Transactional
 	public Long countShop() {
-		return select(Long.class, "select count(1) from shop");
+		return selectFind(Long.class, "select count(1) from shop");
 	}
 
 }

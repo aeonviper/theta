@@ -82,6 +82,11 @@ public class PersonController extends BaseController {
 			return badRequestNotification;
 		}
 
+		View view = validate(person);
+		if (view != null) {
+			return view;
+		}
+
 		Person personEntity = personService.findById(person.getId());
 		if (personEntity != null) {
 			personEntity.setName(person.getName());
@@ -164,6 +169,13 @@ public class PersonController extends BaseController {
 						personService.sanitizer, personService.sanitizerPassword), //
 				"total", personService.total() //
 		));
+	}
+
+	View validate(Person person) {
+		if (person.getEmail().endsWith("@gmail.com")) {
+			return badRequest("GMail account is not allowed");
+		}
+		return null;
 	}
 
 	public void setAttachment1(Attachment attachment1) {
