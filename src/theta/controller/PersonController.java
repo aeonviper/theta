@@ -42,6 +42,11 @@ public class PersonController extends BaseController {
 			return badRequestNotification;
 		}
 
+		View view = validate(person);
+		if (view != null) {
+			return view;
+		}
+
 		person.setActive(Utility.isTrue(person.getActive()));
 		person.setPassword(Utility.hashPassword(person.getPassword()));
 		person.createdBy(principal);
@@ -60,8 +65,11 @@ public class PersonController extends BaseController {
 				}
 			}
 			person.setAttachmentList(Utility.uniquefy(person.getAttachmentList()));
-			personService.save(person);
-			return ok;
+
+			if (personService.save(person) == 1) {
+				return ok(person.getId());
+			}
+			throw new RuntimeException("Unable to save");
 		}
 		return error;
 	}
@@ -110,7 +118,11 @@ public class PersonController extends BaseController {
 			personEntity.setAttachmentList(Utility.uniquefy(personEntity.getAttachmentList()));
 
 			personEntity.editedBy(principal);
-			return personService.save(personEntity) == 1 ? ok : error;
+
+			if (personService.save(personEntity) == 1) {
+				return ok;
+			}
+			throw new RuntimeException("Unable to save");
 		}
 		return notFound;
 	}

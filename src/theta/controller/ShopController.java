@@ -78,9 +78,9 @@ public class ShopController extends BaseController {
 
 		System.out.println("> thread: " + Thread.currentThread() + " " + this);
 
-		System.out.println("> list:\n" + gson.toJson(shopService.list()));
-		System.out.println("> listAgain:\n" + gson.toJson(shopService.listAgain()));
-		System.out.println("> listJoin:\n" + gson.toJson(shopService.listJoin()));
+		System.out.println("> list:\n" + gson.toJson(shopList = shopService.list()));
+		System.out.println("> listAgain:\n" + gson.toJson(shopList = shopService.listAgain()));
+		System.out.println("> listJoin:\n" + gson.toJson(shopList = shopService.listJoin()));
 
 		List<HashMap> mapList = shopService.listJoinMap();
 		System.out.println("> listJoinMap:\n" + gson.toJson(mapList));
