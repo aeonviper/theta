@@ -1,7 +1,9 @@
 package theta.security;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import theta.model.PersonRole;
 
@@ -11,21 +13,21 @@ public class Principal {
 	private Long tenantId;
 	private String name;
 	private String email;
-	private PersonRole role;
+	private Set<PersonRole> roleSet = new HashSet<>();
 	private String token;
 	private Map<String, Object> map = new HashMap<>();
 
 	public static final Principal System = new Principal(null, null, null, null);
 
-	public Principal(Long id, String email, String name, PersonRole role) {
+	public Principal(Long id, String email, String name, Set<PersonRole> roleSet) {
 		this.id = id;
 		this.email = email;
 		this.name = name;
-		this.role = role;
+		this.roleSet = roleSet;
 	}
 
 	public Principal essence() {
-		Principal principal = new Principal(this.id, this.email, this.name, this.role);
+		Principal principal = new Principal(this.id, this.email, this.name, this.roleSet);
 		principal.setMap(null);
 		return principal;
 	}
@@ -62,12 +64,12 @@ public class Principal {
 		this.email = email;
 	}
 
-	public PersonRole getRole() {
-		return role;
+	public Set<PersonRole> getRoleSet() {
+		return roleSet;
 	}
 
-	public void setRole(PersonRole role) {
-		this.role = role;
+	public void setRoleSet(Set<PersonRole> roleSet) {
+		this.roleSet = roleSet;
 	}
 
 	public String getToken() {

@@ -31,7 +31,7 @@ public class PersonController extends BaseController {
 	public View add(@Parameter("person") Person person) {
 		if (!( //
 		validateRequired("person", person) //
-				&& validateRequired("role", person.getRole()) //
+				&& validateRequired("roleSet", person.getRoleSet()) //
 				&& validateRequiredString( //
 						"name", person.getName(), //
 						"email", person.getEmail(), //
@@ -80,7 +80,7 @@ public class PersonController extends BaseController {
 		validateRequired("person", person) //
 				&& validateRequired( //
 						"id", person.getId(), //
-						"role", person.getRole() //
+						"roleSet", person.getRoleSet() //
 				) //
 				&& validateRequiredString( //
 						"name", person.getName(), //
@@ -103,7 +103,7 @@ public class PersonController extends BaseController {
 				personEntity.setPassword(Utility.hashPassword(person.getPassword()));
 			}
 			personEntity.setActive(Utility.isTrue(person.getActive()));
-			personEntity.setRole(person.getRole());
+			personEntity.setRoleSet(person.getRoleSet());
 
 			for (Attachment attachment : new Attachment[] { attachment1, attachment2, attachment3, attachment4, attachment5, attachment6 }) {
 				if (attachment != null) {

@@ -58,7 +58,7 @@ public class AuthenticationController extends BaseController {
 	public View register(@Parameter("person") Person person) {
 		if (!( //
 		validateRequired("person", person) //
-				&& validateRequired("role", person.getRole()) //
+				&& validateRequired("roleSet", person.getRoleSet()) //
 				&& validateRequiredString( //
 						"name", person.getName(), //
 						"email", person.getEmail(), //
@@ -89,7 +89,7 @@ public class AuthenticationController extends BaseController {
 			if (!Utility.isTrue(person.getActive())) {
 				return unauthorized("You have been marked as inactive");
 			} else {
-				Principal principal = new Principal(person.getId(), person.getEmail(), person.getName(), person.getRole());
+				Principal principal = new Principal(person.getId(), person.getEmail(), person.getName(), person.getRoleSet());
 
 				JWT jwt = new JWT().setIssuer("theta").setIssuedAt(ZonedDateTime.now(ZoneOffset.UTC)).setExpiration(ZonedDateTime.now(ZoneOffset.UTC).plusMinutes(1200));
 				jwt.addClaim("principal", Utility.gson.toJson(principal));

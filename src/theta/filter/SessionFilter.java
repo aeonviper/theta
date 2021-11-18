@@ -20,6 +20,7 @@ import orion.navigation.Handle;
 import orion.navigation.Navigation;
 import theta.core.Constant;
 import theta.core.Utility;
+import theta.model.PersonRole;
 import theta.security.Principal;
 
 public class SessionFilter implements Filter {
@@ -87,7 +88,7 @@ public class SessionFilter implements Filter {
 							allowed = true;
 						} else {
 							for (String q : handle.getAllowList()) {
-								if (principal.getRole() != null && q.equals(principal.getRole().name())) {
+								if (principal.getRoleSet() != null && principal.getRoleSet().contains(PersonRole.valueOf(q))) {
 									allowed = true;
 									break;
 								}
@@ -99,7 +100,7 @@ public class SessionFilter implements Filter {
 
 						} else {
 							for (String q : handle.getDenyList()) {
-								if (principal.getRole() != null && q.equals(principal.getRole().name())) {
+								if (principal.getRoleSet() != null && principal.getRoleSet().contains(PersonRole.valueOf(q))) {
 									denied = true;
 									break;
 								}

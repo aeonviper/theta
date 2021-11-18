@@ -1,7 +1,9 @@
 package theta.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Person extends BaseModel {
 
@@ -9,7 +11,8 @@ public class Person extends BaseModel {
 	protected String email;
 	protected String password;
 	protected Boolean active;
-	protected PersonRole role;
+	protected Set<PersonRole> roleSet = new HashSet<>();
+	protected String roleSetData;
 
 	protected List<String> attachmentList = new ArrayList<>();
 	protected String attachmentListData;
@@ -46,12 +49,20 @@ public class Person extends BaseModel {
 		this.active = active;
 	}
 
-	public PersonRole getRole() {
-		return role;
+	public Set<PersonRole> getRoleSet() {
+		return roleSet;
 	}
 
-	public void setRole(PersonRole role) {
-		this.role = role;
+	public void setRoleSet(Set<PersonRole> roleSet) {
+		this.roleSet = roleSet;
+	}
+
+	public String getRoleSetData() {
+		return roleSetData;
+	}
+
+	public void setRoleSetData(String roleSetData) {
+		this.roleSetData = roleSetData;
 	}
 
 	public List<String> getAttachmentList() {

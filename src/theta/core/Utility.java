@@ -3,8 +3,11 @@ package theta.core;
 import java.lang.reflect.Type;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gson.reflect.TypeToken;
+
+import theta.model.PersonRole;
 
 public class Utility extends epsilon.core.Utility {
 
@@ -14,6 +17,9 @@ public class Utility extends epsilon.core.Utility {
 	}.getType();
 
 	public static final Type typeListOfString = new TypeToken<List<String>>() {
+	}.getType();
+
+	public static final Type typeSetOfPersonRole = new TypeToken<Set<PersonRole>>() {
 	}.getType();
 
 	public static Integer page(Integer page) {
