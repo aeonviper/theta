@@ -1,5 +1,6 @@
 package theta.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,9 +12,12 @@ public class Person extends BaseModel {
 	protected String email;
 	protected String password;
 	protected Boolean active;
+	
+	protected LocalDate birthDate;
 	protected Set<PersonRole> roleSet = new HashSet<>();
 	protected String roleSetData;
 
+	protected String image;
 	protected List<String> attachmentList = new ArrayList<>();
 	protected String attachmentListData;
 
@@ -79,6 +83,22 @@ public class Person extends BaseModel {
 
 	public void setAttachmentListData(String attachmentListData) {
 		this.attachmentListData = attachmentListData;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public LocalDate getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(LocalDate birthDate) {
+		this.birthDate = birthDate;
 	}
 
 }

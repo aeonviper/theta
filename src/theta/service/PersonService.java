@@ -38,6 +38,9 @@ public class PersonService extends BaseService {
 			}
 			fromDecorate(entity);
 
+			entity.putTransit("birthDate", Utility.format(Utility.dateFormat, entity.getBirthDate()));
+			entity.putTransit("birthDateFull", Utility.format(Utility.fullDateFormat, entity.getBirthDate()));
+
 			if (Utility.isNotBlank(entity.getRoleSetData())) {
 				entity.setRoleSet(Utility.gson.fromJson(entity.getRoleSetData(), Utility.typeSetOfPersonRole));
 				entity.setRoleSetData(null);
@@ -73,12 +76,12 @@ public class PersonService extends BaseService {
 		if (person.getId() != null) {
 			return super.update("person", person, new String[] { "id" }, //
 					"mapData", "edited", "editor", "editorId", //
-					"name", "email", "password", "active", "roleSetData", "attachmentListData");
+					"name", "email", "password", "active", "birthDate", "image", "roleSetData", "attachmentListData");
 		} else {
 			person.setId(sequence("entitySequence"));
 			return super.insert("person", person, "id", //
 					"mapData", "created", "creator", "creatorId", //
-					"name", "email", "password", "active", "roleSetData", "attachmentListData");
+					"name", "email", "password", "active", "birthDate", "image", "roleSetData", "attachmentListData");
 		}
 	}
 
@@ -104,12 +107,12 @@ public class PersonService extends BaseService {
 
 	@Transactional
 	public Person findByEmail(String email) {
-		return fromDecorator.decorate(find(Person.class, "select id, name, email, password, active, roleSetData from person where email = ?", email));
+		return fromDecorator.decorate(find(Person.class, "select id, name, email, password, active, image, birthDate, roleSetData from person where email = ?", email));
 	}
 
 	@Transactional
 	public List<Person> list(Boolean active) {
-		return fromDecorator.decorate(list(Person.class, "select id, mapData, name, email, password, active, roleSetData, attachmentListData from person where (? is null or active = ?) order by id", active, active));
+		return fromDecorator.decorate(list(Person.class, "select id, mapData, name, email, password, active, image, birthDate, roleSetData, attachmentListData from person where (? is null or active = ?) order by id", active, active));
 	}
 
 	@Transactional
@@ -125,7 +128,7 @@ public class PersonService extends BaseService {
 			sortField = "id";
 			sortDirection = "desc";
 		}
-		return list(Person.class, "select id, mapData, name, email, password, active, role, attachmentListData from person order by " + sortField + " " + sortDirection + " limit ? offset ?", limit, offset);
+		return fromDecorator.decorate(list(Person.class, "select id, mapData, name, email, password, active, image, birthDate, roleSetData, attachmentListData from person order by " + sortField + " " + sortDirection + " limit ? offset ?", limit, offset));
 	}
 
 }

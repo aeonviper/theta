@@ -6,6 +6,8 @@ import java.util.Iterator;
 import javax.inject.Inject;
 
 import epsilon.core.AssetUtility;
+import omega.service.TransactionContext;
+import omega.service.TransactionService;
 import orion.annotation.Parameter;
 import orion.annotation.Path;
 import orion.controller.Attachment;
@@ -20,6 +22,10 @@ public class PersonController extends BaseController {
 	@Inject
 	PersonService personService;
 
+	@Inject
+	TransactionService transactionService;
+
+	protected Attachment attachment;
 	protected Attachment attachment1;
 	protected Attachment attachment2;
 	protected Attachment attachment3;
@@ -47,31 +53,52 @@ public class PersonController extends BaseController {
 			return view;
 		}
 
+//		request.getParameter("query");
+//		PrintWriter pw = response.getWriter();
+//		pw.println();
+//		return new View(Type.TEXT_HTML, "<div>html</div>");
+
 		person.setActive(Utility.isTrue(person.getActive()));
+		person.setBirthDate(Utility.parseDate(person.getTransit("birthDate")));
 		person.setPassword(Utility.hashPassword(person.getPassword()));
 		person.createdBy(principal);
-		int result = personService.save(person);
-		if (result == 1) {
-			String fileName = null;
-			String attachmentPath = null;
-			for (Attachment attachment : new Attachment[] { attachment1, attachment2, attachment3, attachment4, attachment5, attachment6 }) {
-				if (attachment != null) {
-					fileName = "person-attachment-" + person.getId() + "-" + AssetUtility.encodeAssetName(attachment.getName());
-					attachmentPath = Constant.assetPath + File.separator + "file" + File.separator + fileName;
-					if (!(attachment.accept(new File(attachmentPath)) && AssetUtility.resizeAsset(fileName))) {
-						return error("Unable to save " + attachment.getName());
-					}
-					person.getAttachmentList().add(fileName);
-				}
-			}
-			person.setAttachmentList(Utility.uniquefy(person.getAttachmentList()));
 
-			if (personService.save(person) == 1) {
-				return ok(person.getId());
+		return transactionService.action(new TransactionContext<View>() {
+			public View action() {
+				int result = personService.save(person);
+				if (result == 1) {
+
+					String fileName;
+					String attachmentPath;
+
+					if (attachment != null) {
+						fileName = person.getId() + "_" + AssetUtility.encodeAssetName(attachment.getName());
+						attachmentPath = Constant.assetPath + File.separator + "file" + File.separator + fileName;
+						if (!(attachment.accept(new File(attachmentPath)) && AssetUtility.resizeAsset(fileName))) {
+							throw new RuntimeException("Unable to save " + attachment.getName());
+						}
+						person.setImage(fileName);
+					}
+
+					for (Attachment attachment : new Attachment[] { attachment1, attachment2, attachment3, attachment4, attachment5, attachment6 }) {
+						if (attachment != null) {
+							fileName = "person_attachment_" + person.getId() + "_" + AssetUtility.encodeAssetName(attachment.getName());
+							attachmentPath = Constant.assetPath + File.separator + "file" + File.separator + fileName;
+							if (!(attachment.accept(new File(attachmentPath)) && AssetUtility.resizeAsset(fileName))) {
+								return error("Unable to save " + attachment.getName());
+							}
+							person.getAttachmentList().add(fileName);
+						}
+					}
+					person.setAttachmentList(Utility.uniquefy(person.getAttachmentList()));
+
+					if (personService.save(person) == 1) {
+						return ok(person.getId());
+					}
+				}
+				throw new RuntimeException("Unable to save");
 			}
-			throw new RuntimeException("Unable to save");
-		}
-		return error;
+		});
 	}
 
 	@Path(value = "/system/person/edit", allow = { "Administrator", "Tenant" }, deny = {})
@@ -103,26 +130,47 @@ public class PersonController extends BaseController {
 				personEntity.setPassword(Utility.hashPassword(person.getPassword()));
 			}
 			personEntity.setActive(Utility.isTrue(person.getActive()));
+			personEntity.setBirthDate(Utility.parseDate(person.getTransit("birthDate")));
 			personEntity.setRoleSet(person.getRoleSet());
 
-			for (Attachment attachment : new Attachment[] { attachment1, attachment2, attachment3, attachment4, attachment5, attachment6 }) {
-				if (attachment != null) {
-					String fileName = "person-attachment-" + person.getId() + "-" + AssetUtility.encodeAssetName(attachment.getName());
-					String attachmentPath = Constant.assetPath + File.separator + "file" + File.separator + fileName;
-					if (!(attachment.accept(new File(attachmentPath)) && AssetUtility.resizeAsset(fileName))) {
-						return error("Unable to save " + attachment.getName());
+			return transactionService.action(new TransactionContext<View>() {
+				public View action() {
+
+					if (attachment != null) {
+						AssetUtility.deleteAsset(personEntity.getImage());
 					}
-					personEntity.getAttachmentList().add(fileName);
+
+					String fileName;
+					String attachmentPath;
+
+					if (attachment != null) {
+						fileName = personEntity.getId() + "_" + AssetUtility.encodeAssetName(attachment.getName());
+						attachmentPath = Constant.assetPath + File.separator + "file" + File.separator + fileName;
+						if (!(attachment.accept(new File(attachmentPath)) && AssetUtility.resizeAsset(fileName))) {
+							throw new RuntimeException("Unable to save " + attachment.getName());
+						}
+						personEntity.setImage(fileName);
+					}
+
+					for (Attachment attachment : new Attachment[] { attachment1, attachment2, attachment3, attachment4, attachment5, attachment6 }) {
+						if (attachment != null) {
+							fileName = "person_attachment_" + personEntity.getId() + "_" + AssetUtility.encodeAssetName(attachment.getName());
+							attachmentPath = Constant.assetPath + File.separator + "file" + File.separator + fileName;
+							if (!(attachment.accept(new File(attachmentPath)) && AssetUtility.resizeAsset(fileName))) {
+								return error("Unable to save " + attachment.getName());
+							}
+							personEntity.getAttachmentList().add(fileName);
+						}
+					}
+					personEntity.setAttachmentList(Utility.uniquefy(personEntity.getAttachmentList()));
+					personEntity.editedBy(principal);
+
+					if (personService.save(personEntity) == 1) {
+						return ok;
+					}
+					throw new RuntimeException("Unable to save");
 				}
-			}
-			personEntity.setAttachmentList(Utility.uniquefy(personEntity.getAttachmentList()));
-
-			personEntity.editedBy(principal);
-
-			if (personService.save(personEntity) == 1) {
-				return ok;
-			}
-			throw new RuntimeException("Unable to save");
+			});
 		}
 		return notFound;
 	}
@@ -188,6 +236,10 @@ public class PersonController extends BaseController {
 			return badRequest("GMail account is not allowed");
 		}
 		return null;
+	}
+
+	public void setAttachment(Attachment attachment) {
+		this.attachment = attachment;
 	}
 
 	public void setAttachment1(Attachment attachment1) {

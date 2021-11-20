@@ -1,6 +1,8 @@
 package theta.core;
 
 import java.lang.reflect.Type;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
@@ -35,5 +37,20 @@ public class Utility extends epsilon.core.Utility {
 		}
 		return 500;
 	}
+	
+	public static LocalDate parseDate(Object o) {
+		if (o != null) {
+			return LocalDate.parse(o.toString());
+		}
+		return null;
+	}
+
+	public static LocalTime parseTime(Object o) {
+		if (o != null) {
+			return LocalTime.parse(o.toString());
+		}
+		return null;
+	}
+
 
 }

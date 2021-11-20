@@ -20,8 +20,10 @@ CREATE TABLE IF NOT EXISTS `person` (
   `email` varchar(256) NOT NULL,
   `password` tinytext DEFAULT NULL,
   `active` bit(1) NOT NULL,
-  `role` varchar(32) NOT NULL,
+  `image` tinytext DEFAULT NULL,
   `attachmentListData` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `roleSetData` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`roleSetData`)),
+  `birthDate` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_person_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -33,7 +35,8 @@ CREATE TABLE IF NOT EXISTS `product` (
   `name` tinytext NOT NULL,
   `quantity` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `foreignKey_product_shopId` (`shopId`)
+  KEY `foreignKey_product_shopId` (`shopId`),
+  CONSTRAINT `foreignKey_product_shopId` FOREIGN KEY (`shopId`) REFERENCES `shop` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `shop` (
@@ -42,14 +45,15 @@ CREATE TABLE IF NOT EXISTS `shop` (
   `name` tinytext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_shop_slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=13657 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=29216 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `shopsetting` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `shopId` bigint(20) unsigned NOT NULL,
   `value` tinytext NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `foreignKey_shopSetting_shopId` (`shopId`)
+  KEY `foreignKey_shopSetting_shopId` (`shopId`),
+  CONSTRAINT `foreignKey_shopSetting_shopId` FOREIGN KEY (`shopId`) REFERENCES `shop` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `template` (
@@ -63,13 +67,6 @@ CREATE TABLE IF NOT EXISTS `template` (
   `editor` longtext DEFAULT NULL CHECK (json_valid(`editor`)),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE IF NOT EXISTS `tenant` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` tinytext NOT NULL,
-  `mapData` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
