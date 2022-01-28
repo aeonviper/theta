@@ -8,7 +8,7 @@ create sequence `entitySequence`;
 
 CREATE TABLE IF NOT EXISTS `person` (
   `id` bigint(20) unsigned NOT NULL,
-  `mapData` longtext DEFAULT NULL CHECK (json_valid(`mapData`)),
+  `storageMapData` longtext DEFAULT NULL CHECK (json_valid(`storageMapData`)),
   `creatorId` bigint(20) unsigned DEFAULT NULL,
   `created` timestamp NULL DEFAULT NULL,
   `creator` longtext DEFAULT NULL CHECK (json_valid(`creator`)),
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `shop` (
   UNIQUE KEY `unique_shop_slug` (`slug`)
 ) ENGINE=InnoDB AUTO_INCREMENT=29216 DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS `shopsetting` (
+CREATE TABLE IF NOT EXISTS `shopSetting` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `shopId` bigint(20) unsigned NOT NULL,
   `value` tinytext NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `shopsetting` (
 
 CREATE TABLE IF NOT EXISTS `template` (
   `id` bigint(20) unsigned NOT NULL,
-  `mapData` longtext DEFAULT NULL CHECK (json_valid(`mapData`)),
+  `storageMapData` longtext DEFAULT NULL CHECK (json_valid(`storageMapData`)),
   `creatorId` bigint(20) unsigned DEFAULT NULL,
   `created` timestamp NULL DEFAULT NULL,
   `creator` longtext DEFAULT NULL CHECK (json_valid(`creator`)),

@@ -37,7 +37,7 @@ public class Utility extends epsilon.core.Utility {
 		}
 		return 500;
 	}
-	
+
 	public static LocalDate parseDate(Object o) {
 		if (o != null) {
 			return LocalDate.parse(o.toString());
@@ -51,6 +51,5 @@ public class Utility extends epsilon.core.Utility {
 		}
 		return null;
 	}
-
 
 }

@@ -59,7 +59,7 @@ public class PersonController extends BaseController {
 //		return new View(Type.TEXT_HTML, "<div>html</div>");
 
 		person.setActive(Utility.isTrue(person.getActive()));
-		person.setBirthDate(Utility.parseDate(person.getTransit("birthDate")));
+		person.setBirthDate(Utility.parseDate(person.get("birthDate")));
 		person.setPassword(Utility.hashPassword(person.getPassword()));
 		person.createdBy(principal);
 
@@ -130,7 +130,7 @@ public class PersonController extends BaseController {
 				personEntity.setPassword(Utility.hashPassword(person.getPassword()));
 			}
 			personEntity.setActive(Utility.isTrue(person.getActive()));
-			personEntity.setBirthDate(Utility.parseDate(person.getTransit("birthDate")));
+			personEntity.setBirthDate(Utility.parseDate(person.get("birthDate")));
 			personEntity.setRoleSet(person.getRoleSet());
 
 			return transactionService.action(new TransactionContext<View>() {

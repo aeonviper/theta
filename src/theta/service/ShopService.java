@@ -20,7 +20,6 @@ import theta.model.Shop;
 public class ShopService extends BaseService {
 
 	public static final Decorator<Shop> toDecorator = new Decorator<Shop>() {
-		@Override
 		public Shop decorate(Shop entity) {
 			if (entity == null) {
 				return entity;
@@ -31,14 +30,13 @@ public class ShopService extends BaseService {
 	};
 
 	public static final Decorator<Shop> fromDecorator = new Decorator<Shop>() {
-		@Override
 		public Shop decorate(Shop entity) {
 			if (entity == null) {
 				return entity;
 			}
 			fromDecorate(entity);
 
-			entity.putTransit("date", Utility.format(Utility.dateFormat, entity.getDate()));
+			entity.set("date", Utility.format(Utility.dateFormat, entity.getDate()));
 
 			return entity;
 		}
@@ -118,9 +116,9 @@ public class ShopService extends BaseService {
 				shop.setId(rd.getLong("shop.id"));
 				shop.setSlug(rd.getString("shop.slug"));
 				shop.setName(rd.getString("shop.name"));
-				shop.putTransit("whateverName", rd.getString("product.name"));
-				shop.putTransit("whateverSlug", rd.getString("product.Slug"));
-				shop.putTransit("whateverQuantity", rd.getString("product.Quantity"));
+				shop.set("whateverName", rd.getString("product.name"));
+				shop.set("whateverSlug", rd.getString("product.Slug"));
+				shop.set("whateverQuantity", rd.getString("product.Quantity"));
 				return shop;
 			}
 		}, "select shop.id, product.slug as name from shop join product on product.shopId = shop.id order by shop.name"), sanitizer);
@@ -144,7 +142,7 @@ public class ShopService extends BaseService {
 
 	@Transactional
 	public List<Shop> listJoinMainProduct() {
-		return list(Shop.class, "select shop.id, shop.name, product.id as `mainProduct.id`, product.name as `mainProduct.name`, product.name as `transitMap.productName` from shop join product on product.shopId = shop.id order by shop.name");
+		return list(Shop.class, "select shop.id, shop.name, product.id as `mainProduct.id`, product.name as `mainProduct.name`, product.name as `map.productName` from shop join product on product.shopId = shop.id order by shop.name");
 	}
 
 	@Transactional

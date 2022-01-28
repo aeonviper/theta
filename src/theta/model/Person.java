@@ -12,7 +12,7 @@ public class Person extends BaseModel {
 	protected String email;
 	protected String password;
 	protected Boolean active;
-	
+
 	protected LocalDate birthDate;
 	protected Set<PersonRole> roleSet = new HashSet<>();
 	protected String roleSetData;
