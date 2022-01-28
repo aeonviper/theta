@@ -5,7 +5,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 create sequence `entitySequence`;
-create sequence `linkSequence`;
 
 CREATE TABLE IF NOT EXISTS `person` (
   `id` bigint(20) unsigned NOT NULL,
