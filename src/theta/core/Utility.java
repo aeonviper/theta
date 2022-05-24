@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -50,6 +51,13 @@ public class Utility extends epsilon.core.Utility {
 			return LocalTime.parse(o.toString());
 		}
 		return null;
+	}
+
+	public static String sqlSet(Set<Long> set, String delimiter) {
+		if (set == null || set.size() == 0) {
+			return "0";
+		}
+		return join(new ArrayList<>(set), delimiter, null, null);
 	}
 
 }
