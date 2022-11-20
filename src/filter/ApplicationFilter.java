@@ -1,4 +1,4 @@
-package theta.filter;
+package filter;
 
 public class ApplicationFilter extends orion.filter.ApplicationFilter {
 

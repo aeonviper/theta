@@ -1,8 +1,8 @@
-package theta.console;
+package console;
 
 import java.util.Scanner;
 
-import theta.core.Utility;
+import core.Utility;
 
 public class PasswordHasher {
 

@@ -1,4 +1,4 @@
-package theta.model;
+package model;
 
 public class Product extends BaseModel {
 

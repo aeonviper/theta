@@ -1,4 +1,4 @@
-package theta.core;
+package core;
 
 import java.lang.reflect.Type;
 import java.time.LocalDate;
@@ -10,7 +10,7 @@ import java.util.Set;
 
 import com.google.gson.reflect.TypeToken;
 
-import theta.model.PersonRole;
+import model.PersonRole;
 
 public class Utility extends epsilon.core.Utility {
 

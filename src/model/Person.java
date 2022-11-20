@@ -1,4 +1,4 @@
-package theta.model;
+package model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -1,21 +1,21 @@
-package theta.controller;
+package controller;
 
 import java.io.File;
 import java.util.Iterator;
 
 import javax.inject.Inject;
 
+import core.Constant;
+import core.Utility;
 import epsilon.core.AssetUtility;
+import model.Person;
 import omega.service.TransactionContext;
 import omega.service.TransactionService;
 import orion.annotation.Parameter;
 import orion.annotation.Path;
 import orion.controller.Attachment;
 import orion.view.View;
-import theta.core.Constant;
-import theta.core.Utility;
-import theta.model.Person;
-import theta.service.PersonService;
+import service.PersonService;
 
 public class PersonController extends BaseController {
 

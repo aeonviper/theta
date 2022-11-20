@@ -1,4 +1,4 @@
-package theta.core;
+package core;
 
 import io.fusionauth.jwt.Signer;
 import io.fusionauth.jwt.Verifier;

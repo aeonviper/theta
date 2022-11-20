@@ -1,11 +1,11 @@
-package theta.controller;
+package controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import orion.annotation.Request;
 import orion.annotation.Response;
-import theta.security.Principal;
+import security.Principal;
 
 public class BaseController extends epsilon.controller.BaseController {
 
